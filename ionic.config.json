@@ -1,0 +1,7 @@
+{
+  "name": "App Temporário",
+  "type": "custom",
+  "integrations": {
+    "cordova": {}
+  }
+}

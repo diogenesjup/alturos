@@ -1,0 +1,36 @@
+{
+  "name": "com.apptemporario.apptemporariobr",
+  "version": "1.0.0",
+  "description": "App Temporário",
+  "main": "index.html",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diogenesjup/App-Tempor-rio.git"
+  },
+  "keywords": [
+    "App Temporário"
+  ],
+  "author": "App Temporário Tecnologia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/diogenesjup/App-Tempor-rio/issues"
+  },
+  "homepage": "https://github.com/diogenesjup/App-Tempor-rio.git#readme",
+  "devDependencies": {
+    "cordova-android": "^13.0.0"
+  },
+  "cordova": {
+    "platforms": [
+      "android"
+    ],
+    "plugins": {
+      "cordova-plugin-android-permissions": {},
+      "cordova-plugin-inappbrowser": {},
+      "cordova-plugin-statusbar": {},
+      "cordova-plugin-ionic-webview": {}
+    }
+  }
+}
