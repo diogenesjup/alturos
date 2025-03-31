@@ -240,6 +240,8 @@ class Models{
       var cadastroEmail   = $("#cadastroEmail").val();
       var cadastroSenha   = $("#cadastroSenha").val();
       var cadastroCPF     = $("#cadastroCPF").val();
+      var cadastroOAB     = $("#cadastroOAB").val();
+
       var cadastroCelular = localStorage.getItem("celularCadastro");
 
               // INICIO CHAMADA AJAX
@@ -247,7 +249,7 @@ class Models{
 
                   method: "POST",
                   url: app.urlApi+"cadastro-usuarios",
-                  data:{token:app.token,cadastroCelular:cadastroCelular,cadastroNome:cadastroNome,cadastroEmail:cadastroEmail,cadastroSenha:cadastroSenha,cadastroCPF:cadastroCPF}
+                  data:{token:app.token,cadastroCelular:cadastroCelular,cadastroNome:cadastroNome,cadastroEmail:cadastroEmail,cadastroSenha:cadastroSenha,cadastroCPF:cadastroCPF,cadastroOAB:cadastroOAB}
               
               })
               request.done(function (dados) {            
@@ -403,6 +405,7 @@ class Models{
                     $("#editarPerfilNome").val(dados.nome);
                     $("#editarPerfilEmail").val(dados.dados[0].user_email);
                     $("#editarPerfilCelular").val(dados.celular);
+                    $("#editarPerfilOAB").val(dados.oab);
 
                     if(dados.imagem_perfil!="" && dados.imagem_perfil!="N/A"){
                       
@@ -623,6 +626,8 @@ enviarAtendimento(){
         var nomeCategoriaAtendimento = localStorage.getItem("nomeCategoriaAtendimento");
         var idCategoriaAtendimento = localStorage.getItem("idCategoriaAtendimento");
 
+        
+
         // CONFIGURAÇÕES AJAX VANILLA
         let xhr = new XMLHttpRequest();
 
@@ -727,6 +732,10 @@ orcamentosDisponiveis(){
                           // ORCAMENTO SÓ FICA DISPONIVEL SE NAO TIVER SIDO DESBLOQUEADO AINDA
                           if(n.desblock=="nao"){
 
+                            if(n.nome_da_empresa==""||n.nome_da_empresa==null){
+                              n.nome_da_empresa = "N/A";
+                            }
+
                               return `
                                   
                                  <!-- CAIXA DESTAQUE SERVIÇOS -->
@@ -745,7 +754,7 @@ orcamentosDisponiveis(){
                                                   <i class="fa fa-star" aria-hidden="true"></i>
                                                   <i class="fa fa-star" aria-hidden="true"></i>
                                                </p>
-                                               Área de atendimento: ${n.regiao}
+                                               <!--Área de atendimento: ${n.regiao}-->
                                             </small>
                                          </h3>
 
@@ -756,7 +765,7 @@ orcamentosDisponiveis(){
                                      <div class="body-autor">
                                           <h4>${n.titulo_origin}</h4>
                                           <p>${n.descricao}</p>
-                                          <p><b>Requisitos:</b> ${n.requisitos}</p>
+                                          <p><b>Empresa:</b> ${n.nome_da_empresa}</p>
                                      </div>
 
                                      <div class="footer-autor">
@@ -836,6 +845,10 @@ orcamentosDisponiveisDesbloqueados(){
                           // ORCAMENTO SÓ FICA DISPONIVEL SE NAO TIVER SIDO DESBLOQUEADO AINDA
                           if(n.desblock=="sim"){
 
+                              if(n.nome_da_empresa=="" || n.nome_da_empresa==null){
+                                 n.nome_da_empresa = "N/A";
+                              }
+
                               return `
                                   
                                  <!-- CAIXA DESTAQUE SERVIÇOS -->
@@ -854,7 +867,7 @@ orcamentosDisponiveisDesbloqueados(){
                                                   <i class="fa fa-star" aria-hidden="true"></i>
                                                   <i class="fa fa-star" aria-hidden="true"></i>
                                                </p>
-                                               Área de atendimento: ${n.regiao}
+                                               <!--Área de atendimento: ${n.regiao}-->
                                             </small>
                                          </h3>
 
@@ -865,7 +878,7 @@ orcamentosDisponiveisDesbloqueados(){
                                      <div class="body-autor">
                                           <h4>${n.titulo_origin}</h4>
                                           <p>${n.descricao}</p>
-                                          <p><b>Requisitos:</b> ${n.requisitos}</p>
+                                          <p><b>Empresa:</b> ${n.nome_da_empresa}</p>
                                           <p>
                                              Você <b>já desbloqueou</b> esse orçamento!
                                           </p>
@@ -949,11 +962,15 @@ carregarDetalheAtendimento(idAnuncio,acao){
               
               var dados = JSON.parse(xhr.responseText);
 
+              if(dados.orcamentos[0].nome_da_empresa=="" || dados.orcamentos[0].nome_da_empresa==null){
+                dados.orcamentos[0].nome_da_empresa = "N/A";
+              }
+
               $("#nomeCliente").html(`${dados.orcamentos[0].nome_do_cliente}`);
               $("#subTituloAnuncio").html(`${dados.orcamentos[0].quando}`);
               $("#descAnuncio").html(`Descrição: ${dados.orcamentos[0].descricao}`);
-              $("#localAnuncio").html(`Local do atendimento: ${dados.orcamentos[0].regiao}`);
-              $("#requisitosAnuncio").html(`Requisitos: ${dados.orcamentos[0].requisitos}`);
+              //$("#localAnuncio").html(`Local do atendimento: ${dados.orcamentos[0].regiao}`);
+              $("#requisitosAnuncio").html(`Nome da empresa: ${dados.orcamentos[0].nome_da_empresa}`);
               $("#dataAnuncio").html(`${dados.orcamentos[0].data_criacao}`);
               $("#formaContaAnuncio").html(`Forma de contato: ${dados.orcamentos[0].forma_de_contato}`);
               $("#contatoTelefone").html(`${dados.orcamentos[0].celular}`);

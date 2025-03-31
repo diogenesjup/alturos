@@ -47,6 +47,7 @@ class Views{
                               </label>
                            </div>
 
+                           <!--
                            <div class="form-check">
                               <input class="form-check-input" type="radio" name="tipoPerfil" id="tipoServicoClienteEmpresa" value="cliente">
                               <label class="form-check-label" for="tipoServicoClienteEmpresa">
@@ -55,6 +56,7 @@ class Views{
                                 </span> Como <strong>EMPRESA,</strong><br> preciso de um profissional
                               </label>
                            </div>
+                           -->
                            
                            <div class="form-group">
                               <button typw="submit" class="btn btn-primary">
@@ -189,32 +191,22 @@ class Views{
                             <input type="hidden" name="primeiro" value="de tudo" />
 
                             <div class="caixa-branca">
+
                                     <div class="form-group">
                                       <label>Título do seu anúncio</label>
                                       <input type="text" class="form-control" id="titulo" name="titulo" placeholder="título do seu anúncio" required />
                                     </div>
 
                                     <div class="form-group">
-                                      <label>Descreva em poucas palavras o que você precisa:</label>
+                                      <label>Qual o nome da empresa que você teve o problema?</label>
+                                      <input type="text" class="form-control" name="nome_empresa" placeholder="Digite o nome da empresa" />
+                                    </div>
+
+                                    <div class="form-group">
+                                      <label>Relate o seu problema:</label>
                                       <textarea rows="4" class="form-control" name="descricao" placeholder="Digite nesse campo"></textarea>
                                     </div>
-
-                                    <div class="form-group">
-                                      <label>Região do atendimento</label>
-                                      <input type="text" class="form-control" name="regiao" placeholder="Exemplo: região de Osasco" />
-                                    </div>
-
-                                    <div class="form-group">
-                                      <label>Para quando precisa?</label>
-                                      <input type="text" class="form-control" name="quando" placeholder="Exemplo: até sexta-feira" />
-                                    </div>
-
-                                    <div class="form-group">
-                                      <label>O prestador de serviço precisa de algum requisito especial?</label>
-                                      <input type="text" class="form-control" name="requisitos" placeholder="Exemplo: inglês fluente" />
-                                    </div>
-
-
+                                    
                                     <div class="form-group">
                                         <label>Como prefere ser contatado(a)?</label>
                                         <select class="form-control" required name="formacontato">
@@ -225,6 +217,7 @@ class Views{
                                           <option value="E-mail">Apenas E-mail</option>
                                         </select>
                                     </div>
+
                             </div>
 
                             <div class="form-group" style="margin-top:30px;">
@@ -685,6 +678,11 @@ class Views{
                                             <div class="form-group">
                                                <label>Celular</label>
                                                <input type="text" class="form-control" name="editarPerfilCelular" id="editarPerfilCelular" placeholder="DDD + número" required />
+                                            </div>
+
+                                            <div class="form-group">
+                                               <label>Número OAB <small>obrigatório para profissionais</small></label>
+                                               <input type="text" class="form-control" name="editarPerfilOAB" id="editarPerfilOAB" placeholder="Número da OAB (obrigatório para profissionais)" />
                                             </div>
 
                                             <div class="form-group">
@@ -2130,7 +2128,7 @@ class Views{
 
                      <div class="form-group link-apoio text-center">
                             <a href="javascript:void(0)" title="Versão do Aplicativo" style="padding-top:20px;font-size:13px;">
-                               Versão 1.0.0
+                               Versão 1.2.0
                             </a>
                           </div>
                      
@@ -2293,6 +2291,11 @@ class Views{
                         <div class="form-group">
                            <label>Seu CPF</label>
                            <input type="tel" id="cadastroCPF" class="form-control" placeholder="Número do CPF" required />
+                        </div>
+
+                        <div class="form-group">
+                           <label>Número OAB <small>obrigatório para profissionais</small></label>
+                           <input type="text" id="cadastroOAB" class="form-control" placeholder="Número da OAB (obrigatório para profissionais)" />
                         </div>
 
                         <div class="form-group">
