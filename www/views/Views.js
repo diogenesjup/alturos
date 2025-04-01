@@ -2129,7 +2129,7 @@ class Views{
 
                      <div class="form-group link-apoio text-center">
                             <a href="javascript:void(0)" title="Versão do Aplicativo" style="padding-top:20px;font-size:13px;">
-                               Versão 1.2.0
+                               Versão 1.0.0
                             </a>
                           </div>
                      
