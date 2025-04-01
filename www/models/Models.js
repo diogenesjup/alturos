@@ -696,7 +696,7 @@ orcamentosDisponiveis(){
          
         xhr.open('POST', app.urlApi+'orcamentos-abertos',true);
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
+        //xhr.setRequestHeader('Authorization', 'Bearer ' + app.AlturosToken);
         var params = 'idUsuario='+idUsuario+ 
                      "&token="+app.token;
         
@@ -732,53 +732,52 @@ orcamentosDisponiveis(){
                           // ORCAMENTO SÓ FICA DISPONIVEL SE NAO TIVER SIDO DESBLOQUEADO AINDA
                           if(n.desblock=="nao"){
 
-                            if(n.nome_da_empresa==""||n.nome_da_empresa==null){
-                              n.nome_da_empresa = "N/A";
+                            if(n.Cliente==""||n.Cliente=="?"){
+                              n.Cliente = "Nome não informado";
                             }
+                            //n.resumoAnotacoes.replace('"','');
 
-                              return `
-                                  
-                                 <!-- CAIXA DESTAQUE SERVIÇOS -->
-                                 <div id="anuncio${n.id}" class="caixa-destaque-servicos" data-categoria="${n.nome_categoria}">
-                                   
-                                     <div class="header-autor">
+                            if(n.disponivel!=2 && n.disponivel!="2" && n.desblock!="sim"){
 
-                                         <h3>
-                                            <img src="${n.imagem_perfil}" style="opacity:1;border-radius: 100%;" alt="Foto Perfil" />
-                                            ${n.nome_do_cliente}
-                                            <small>
-                                               <p>
-                                                  <i class="fa fa-star" aria-hidden="true"></i>
-                                                  <i class="fa fa-star" aria-hidden="true"></i>
-                                                  <i class="fa fa-star" aria-hidden="true"></i>
-                                                  <i class="fa fa-star" aria-hidden="true"></i>
-                                                  <i class="fa fa-star" aria-hidden="true"></i>
-                                               </p>
-                                               <!--Área de atendimento: ${n.regiao}-->
-                                            </small>
-                                         </h3>
+                                      return `
+                                          
+                                        <!-- CAIXA DESTAQUE SERVIÇOS -->
+                                        <div id="anuncio${n.id}" class="caixa-destaque-servicos" data-grupo="${n.grupo}">
+                                          
+                                            <div class="header-autor">
 
-                                     </div>
+                                                <h3>
+                                                    <img src="${n.imagem_perfil}" style="opacity:1;border-radius: 100%;" alt="Foto Perfil" />
+                                                    Caso ${n.Caso}
+                                                    <small>
+                                                      Grupo: ${n.grupo}
+                                                    </small>
+                                                </h3>
 
-                                     <br clear="both">
+                                            </div>
 
-                                     <div class="body-autor">
-                                          <h4>${n.titulo_origin}</h4>
-                                          <p>${n.descricao}</p>
-                                          <p><b>Empresa:</b> ${n.nome_da_empresa}</p>
-                                     </div>
+                                            <br clear="both">
 
-                                     <div class="footer-autor">
-                                          <a href="javascript:void(0)" onclick="app.desbloqAnuncio(${n.id},${n.valor_chaves_para_desbloqueio},${n.nome_categoria});" title="DESBLOQUEAR" class="btn btn-primary">
-                                              DESBLOQUEAR <span><img src="assets/images/simbolo.svg" /> ${n.valor_chaves_para_desbloqueio}</span>
-                                          </a>
-                                     </div>
+                                            <div class="body-autor">
+                                                  <p class="texto-limitado">
+                                                    ${n.resumoAnotacoes}
+                                                  </p>
+                                                  <a class="btn-leia-mais" onclick="abrirModalDetalhes(${n.id}, '${n.Caso}', '${n.valor_chaves_para_desbloqueio}', '${n.grupo}')">
+                                                    Leia mais <div class="texto-completo" style="display:none">${n.resumoAnotacoes}</div>
+                                                  </a>
+                                            </div>
 
-                                 </div>
-                                 <!-- CAIXA DESTAQUE SERVIÇOS -->
+                                            <div class="footer-autor">
+                                                  <a href="javascript:void(0)" onclick="app.desbloqAnuncio('${n.id}','${n.valor_chaves_para_desbloqueio}','${n.grupo}');" title="COMPRAR" class="btn btn-primary">
+                                                      COMPRAR <span><img src="assets/images/simbolo.svg" /> ${n.valor_chaves_para_desbloqueio}</span>
+                                                  </a>
+                                            </div>
 
+                                        </div>
+                                        <!-- CAIXA DESTAQUE SERVIÇOS -->
 
-                              `
+                                      `
+                            }
 
                           }
 
@@ -802,7 +801,7 @@ orcamentosDisponiveis(){
 
       /* EXECUTA */
       xhr.send(params);
-
+      //xhr.send();
 }
 
 
@@ -845,44 +844,35 @@ orcamentosDisponiveisDesbloqueados(){
                           // ORCAMENTO SÓ FICA DISPONIVEL SE NAO TIVER SIDO DESBLOQUEADO AINDA
                           if(n.desblock=="sim"){
 
-                              if(n.nome_da_empresa=="" || n.nome_da_empresa==null){
-                                 n.nome_da_empresa = "N/A";
-                              }
+                            if(n.Cliente==""||n.Cliente=="?"){
+                              n.Cliente = "Nome não informado";
+                            }
 
                               return `
                                   
                                  <!-- CAIXA DESTAQUE SERVIÇOS -->
-                                 <div id="anuncio${n.id}" class="caixa-destaque-servicos">
+                                 <div id="anuncio${n.id}" class="caixa-destaque-servicos" data-meu-caso="${n.Caso}">
                                    
                                      <div class="header-autor">
 
-                                         <h3>
-                                            <img src="${n.imagem_perfil}" style="opacity:1;border-radius: 100%;" alt="Foto Perfil" />
-                                            ${n.nome_do_cliente}
-                                            <small>
-                                               <p>
-                                                  <i class="fa fa-star" aria-hidden="true"></i>
-                                                  <i class="fa fa-star" aria-hidden="true"></i>
-                                                  <i class="fa fa-star" aria-hidden="true"></i>
-                                                  <i class="fa fa-star" aria-hidden="true"></i>
-                                                  <i class="fa fa-star" aria-hidden="true"></i>
-                                               </p>
-                                               <!--Área de atendimento: ${n.regiao}-->
-                                            </small>
-                                         </h3>
+                                                <h3>
+                                                    <img src="${n.imagem_perfil}" style="opacity:1;border-radius: 100%;" alt="Foto Perfil" />
+                                                    Caso ${n.Caso}
+                                                    <small>
+                                                      Grupo: ${n.grupo}
+                                                    </small>
+                                                </h3>
 
-                                     </div>
+                                            </div>
 
-                                     <br clear="both">
+                                            <br clear="both">
 
-                                     <div class="body-autor">
-                                          <h4>${n.titulo_origin}</h4>
-                                          <p>${n.descricao}</p>
-                                          <p><b>Empresa:</b> ${n.nome_da_empresa}</p>
-                                          <p>
-                                             Você <b>já desbloqueou</b> esse orçamento!
-                                          </p>
-                                     </div>
+                                            <div class="body-autor">
+                                                  <p class="texto-limitado">
+                                                    ${n.resumoAnotacoes}
+                                                  </p>
+                                                 
+                                            </div>
 
                                      <div class="footer-autor">
                                           <a href="javascript:void(0)" onclick='app.views.viewDetalheAnuncio(${n.id},1)' title="VER DETALHES" style="text-align:center;" class="btn btn-primary">
@@ -962,23 +952,35 @@ carregarDetalheAtendimento(idAnuncio,acao){
               
               var dados = JSON.parse(xhr.responseText);
 
-              if(dados.orcamentos[0].nome_da_empresa=="" || dados.orcamentos[0].nome_da_empresa==null){
-                dados.orcamentos[0].nome_da_empresa = "N/A";
+              if(dados.orcamentos[0].Cliente==""||dados.orcamentos[0].Cliente=="?"){
+                dados.orcamentos[0].nome_da_empresa = "Nome não informado";
               }
 
-              $("#nomeCliente").html(`${dados.orcamentos[0].nome_do_cliente}`);
-              $("#subTituloAnuncio").html(`${dados.orcamentos[0].quando}`);
-              $("#descAnuncio").html(`Descrição: ${dados.orcamentos[0].descricao}`);
-              //$("#localAnuncio").html(`Local do atendimento: ${dados.orcamentos[0].regiao}`);
-              $("#requisitosAnuncio").html(`Nome da empresa: ${dados.orcamentos[0].nome_da_empresa}`);
-              $("#dataAnuncio").html(`${dados.orcamentos[0].data_criacao}`);
-              $("#formaContaAnuncio").html(`Forma de contato: ${dados.orcamentos[0].forma_de_contato}`);
-              $("#contatoTelefone").html(`${dados.orcamentos[0].celular}`);
-              $("#contatoEmail").html(`${dados.orcamentos[0].e_mail}`);
+              $("#nomeCliente").html(`Caso: ${dados.orcamentos[0].Caso}`);
+              $("#subTituloAnuncio").html(`Grupo: ${dados.orcamentos[0].grupo}`);
+              
+              $("#detalhe_caso").html(`
+                
+                <p>
+                   <small>
+                      <b>Criação:</b> ${dados.orcamentos[0].Criação}
+                   </small>
+                </p>
+                <h4>Resumo das anotações:</h4>
+                  <p>${dados.orcamentos[0].resumoAnotacoes}</p>
+                <hr>
+                <h4>Análise Legislativa:</h4>
+                  <p>${dados.orcamentos[0].analiseLegislativa}</p>  
+                
+              `);
 
-              $(".body-autor h4").html(`${dados.orcamentos[0].titulo_origin}`);
 
-              let celularLimpo = dados.orcamentos[0].celular.replace(/\D/g, '');
+              $("#contatoTelefone").html(`${dados.orcamentos[0].Whatsapp_Cliente}`);
+              //$("#contatoEmail").html(`${dados.orcamentos[0].e_mail}`);
+
+              //$(".body-autor h4").html(`${dados.orcamentos[0].titulo_origin}`);
+
+              let celularLimpo = dados.orcamentos[0].Whatsapp_Cliente.replace(/\D/g, '');
 
               //$("#actionLigacao").attr("href",`tel:${celularLimpo}`);
               //$("#actionWhatsApp").attr("href",`https://api.whatsapp.com/send?l=pt_BR&phone=55${celularLimpo}`);

@@ -43,8 +43,8 @@
         <div class="row">
           <!-- LOGO -->
           <div class="col-9 logo">
-             <a href="javascript:void(0)" title="App Temporário">
-                <img src="assets/images/2.png" alt="App Temporário LOGO" />
+             <a href="javascript:void(0)" title="Alturos">
+                <img src="assets/images/logo-2.jpg" alt="Alturos LOGO" />
              </a>
           </div>
           <!-- LOGO -->
@@ -78,8 +78,9 @@
             </div>
             <div class="col menu-2">
                 <a href="javascript:void(0)" title="Serviços" onclick="app.servicosDesbloqueadosProfissional()">
-                    <img src="assets/images/simbolo.png" alt="Serviços" />
-                    Serviços
+                    <!--<img src="assets/images/logo.png" alt="Serviços" />-->
+                    <div style="background:url('assets/images/logo.png') #fff no-repeat;background-size:67% auto;background-position:center center;">&nbsp;</div>
+                    Meus Casos
                 </a>
             </div>
             <div class="col menu-3">
@@ -279,7 +280,22 @@
         </div>
         <!-- MENU ADICIONAL PROFISSIONAL -->
 
-
+        <div id="modalDetalhesAnuncio" class="modal-alturos">
+          <div class="modal-content-alturos">
+            <div class="modal-header-alturos">
+              <h3 id="modalTitulo">Detalhes do Caso</h3>
+              <span class="close-modal" onclick="document.getElementById('modalDetalhesAnuncio').style.display='none'">&times;</span>
+            </div>
+            <div class="modal-body-alturos">
+              <p id="modalTextoCompleto"></p>
+            </div>
+            <div class="modal-footer-alturos">
+              <a href="javascript:void(0)" id="modalBtnComprar" class="btn btn-primary">
+                COMPRAR <span><img src="assets/images/simbolo.svg" /> <span id="modalValorChaves"></span></span>
+              </a>
+            </div>
+          </div>
+        </div>
 
 
     <script type="text/javascript" src="assets/js/jquery-3.4.1.min.js"></script>

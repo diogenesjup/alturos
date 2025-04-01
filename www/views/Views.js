@@ -29,6 +29,7 @@ class Views{
                      
                      <form method="post" action="javascript:void(0)" onsubmit="app.selecaoPerfil(event)">
 
+                           <!--
                            <div class="form-check">
                               <input class="form-check-input" type="radio" name="tipoPerfil" id="tipoServicoCliente" value="cliente" checked>
                               <label class="form-check-label" for="tipoServicoCliente">
@@ -37,11 +38,12 @@ class Views{
                                 </span> Sou <strong>CLIENTE,</strong><br> preciso de um serviço
                               </label>
                            </div>
+                           -->
 
                            <div class="form-check">
                               <input class="form-check-input" type="radio" name="tipoPerfil" id="tipoServicoPro" value="profissionais">
                               <label class="form-check-label" for="tipoServicoPro">
-                                <span style="position: absolute;display: block;float: none;width: 42px;height: 42px;border-radius: 100%;margin-right: 10px;margin-top: 1px;text-align: center;left:10px;">
+                                <span style="position: absolute;display: none;float: none;width: 42px;height: 42px;border-radius: 100%;margin-right: 10px;margin-top: 1px;text-align: center;left:10px;">
                                  <img src="assets/images/cad59703-0e4d-486b-b442-07f50c45fc9f.png" alt="Sou PROFISSIONAL" style="position: absolute;display: block;left: 0px;top: 0px;width: 96%;" />
                                  </span>  Sou <strong>PROFISSIONAL,</strong><br> quero cadastrar meus serviços.
                               </label>
@@ -60,7 +62,7 @@ class Views{
                            
                            <div class="form-group">
                               <button typw="submit" class="btn btn-primary">
-                                  Escolher esse perfil
+                                  Ver casos
                               </button> 
                            </div>
 
@@ -311,10 +313,10 @@ class Views{
                      
                      <h2>
                        Olá novamente,<br>${localStorage.getItem("nomeCompletoUsuario")}<br>
-                       <small>Novos orçamentos da rede <br>${app.appName}:</small>
+                       <small>Novos casos disponíveis na plataforma <br>${app.appName}:</small>
                      </h2> 
 
-                     <div class="filtro-categorias">
+                     <div class="filtro-categorias" style="display:none">
 
                         <label class="switch">
                            <input type="checkbox" id="toggleSwitch" onchange="filtrarCategorias();">
@@ -467,9 +469,23 @@ class Views{
                   <div class="col-12 wow fadeInUp" data-wow-delay="0.0s" data-wow-duration="0.3s">
                      
                      <h2>
-                       Serviços<br>
-                       <small>Orçamentos que você já desbloqueou:</small>
+                       Meus Casos<br>
+                       <small>Casos que você já comprou:</small>
                      </h2>
+
+                      <!-- BUSCA PRINCIPAL -->
+                     <div class="input-group busca-principal">
+                        <input 
+                           type="tel" 
+                           class="form-control" 
+                           onkeyup="filtroCasos();" 
+                           id="filtroTabela" 
+                           style="text-transform:uppercase;"
+                           placeholder="Pesquise pelo número de um caso" 
+                           aria-label="Pesquise pelo número de um caso" 
+                           aria-describedby="busca-principal">
+                      </div>
+                     <!-- BUSCA PRINCIPAL -->
 
                      <div class="loop-novos-servicos" id="listaDeOrcamentos">
 
@@ -1883,9 +1899,9 @@ class Views{
                       <a href="javascript:void(0)" title="Voltar" onclick="app.viewPrincipalProfissional();">
                          <img src="assets/images/voltar-views.svg" alt="Voltar" />
                       </a> 
-                      Detalhe orçamento</h2>
+                      Detalhes do caso</h2>
 
-                     <p class="sub">Parabéns! Você já desbloqueou esse orçamento!</p>
+                     <p class="sub">Parabéns! Você já comprou esse caso!</p>
 
                      <div class="loop-novos-servicos">
                          
@@ -1898,13 +1914,6 @@ class Views{
                                     <img src="assets/images/perfil.png" alt="Foto Perfil" />
                                     <span id="nomeCliente"></span>
                                     <small>
-                                       <p>
-                                          <i class="fa fa-star" aria-hidden="true"></i>
-                                          <i class="fa fa-star" aria-hidden="true"></i>
-                                          <i class="fa fa-star" aria-hidden="true"></i>
-                                          <i class="fa fa-star" aria-hidden="true"></i>
-                                          <i class="fa fa-star" aria-hidden="true"></i>
-                                       </p>
                                        <span id="subTituloAnuncio"></span>
                                     </small>
                                  </h3>
@@ -1914,21 +1923,21 @@ class Views{
                              <br clear="both">
 
                              <div class="body-autor">
-                                  <h4>Carregando...</h4>
-                                  <p id="descAnuncio"></p>
-                                  <p id="localAnuncio"></p>
-                                  <p id="requisitosAnuncio"></p>
-                                  <p id="dataAnuncio"></p>
-                                  <p id="formaContaAnuncio"></p>
+                                  
+                                  <div id="detalhe_caso">
+                                    <h4>Carregando...</h4>
+                                  </div>
+                                  <div style="margin-top:18px;display:block;">
+                                    <a href="javascript:void(0)" class="btn btn-default" onclick="copiarDetalheCaso();">
+                                          COPIAR TEXTO
+                                    </a>
+                                  </div>
                              </div>
 
                              <div class="footer-autor">
                                
                                <h2>
                                   <img src="assets/images/whatsapp.svg" alt="Whatsapp" /> <span id="contatoTelefone"></span>
-                               </h2>
-                               <h2>
-                                   <img src="assets/images/envelope.svg" alt="E-mail" /> <span id="contatoEmail"></span>
                                </h2>
 
                              </div>
@@ -1944,18 +1953,10 @@ class Views{
                                 </p>
                                 <p>
                                    <a href="" id="actionWhatsApp" target="_system" title="Whatsapp" class="btn btn-default">
-                                      Whatsapp
+                                      Chamar no Whatsapp
                                    </a>
                                 </p>
                                 
-                                <!--
-                                <p>
-                                    <a href="javascript:void(0)" onclick="app.finalizarServico()" title="Serviço concluído" class="btn btn-default">
-                                      Eu já realizei esse serviço para o cliente!
-                                   </a>
-                                </p>
-                                -->
-                            
                          </div>
 
                          <!-- CAIXA DESTAQUE SERVIÇOS -->
@@ -1976,7 +1977,7 @@ class Views{
             this.animarTransicao();
 
             if(acao==5){
-              aviso("Parabéns! Orçamento desbloqueado","Agora você pode ver todas as informações desse orçamento. Ele também ficará salvo no meu <b>Serviços</b> na barra inferior do aplicativo.");
+              aviso("Parabéns! Você comprou esse caso!","Agora você pode ver todas as informações desse caso. Ele também ficará salvo no meu <b>Meus casos</b> na barra inferior do aplicativo.");
             }
 
             app.models.carregarDetalheAtendimento(idAnuncio,acao);

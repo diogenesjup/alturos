@@ -14,9 +14,11 @@ class App {
         
         if(ambiente=="HOMOLOGACAO"){
              
-            this.urlDom = "https://apptemporario.servidorseguro.cloud/app/www/";
-            this.urlApi = "https://apptemporario.servidorseguro.cloud/apiservicekeys/";
-            this.urlCdn = "https://apptemporario.servidorseguro.cloud/cdn/";
+            this.urlDom = "https://alturos.servidorseguro.cloud/app/www/";
+            this.urlApi = "https://alturos.servidorseguro.cloud/apiservicekeys/";
+            this.urlCdn = "https://alturos.servidorseguro.cloud/cdn/";
+            this.urlApiAlturos = "https://www.cranchi.com.br/appCasosJuridicos/";
+            this.AlturosToken = "76cafc6b8cb33b129591d60abbfba49234f1415c6436712ed063277a47adf61e";
 
         }
         if(ambiente=="PRODUCAO"){
@@ -24,10 +26,12 @@ class App {
             this.urlDom = "";
             this.urlApi = "";
             this.urlCdn = "";
+            this.urlApiAlturos = "https://www.cranchi.com.br/appCasosJuridicos/";
+            this.AlturosToken = "76cafc6b8cb33b129591d60abbfba49234f1415c6436712ed063277a47adf61e";
 
         }
 
-        this.urlApiPagto = "https://apptemporario.servidorseguro.cloud";
+        this.urlApiPagto = "https://alturos.servidorseguro.cloud";
 
         this.token = token;
         this.tokenSms = tokenSms;
@@ -422,7 +426,7 @@ filtrotabela(){
         var categoria2 = localStorage.getItem("categoria2");
         console.log("ESSA É A CATEGORIA: "+categoria);
 
-        if(categoria1==categoria  || categoria2==categoria){
+        
 
         var saldoUsuario = localStorage.getItem("saldoPrestadorServico");
         
@@ -435,15 +439,16 @@ filtrotabela(){
         
         }else{
 
-            confirmacao("Tem certeza que deseja desbloquear esse anúncio?",`Será debitado um valor de ${valorAnuncio} MOEDAS do seu saldo <b>${app.appName}</b>`,`app.views.viewDetalheAnuncio(${anuncio},5)`,"Desbloquear");
+            confirmacao("Tem certeza que deseja comprar esse caso?",`Será debitado um valor de ${valorAnuncio} MOEDAS do seu saldo <b>${app.appName}</b>`,`app.views.viewDetalheAnuncio(${anuncio},5)`,"Comprar");
 
         }
 
-    }else{
-
-          aviso("Oops! Você não pode atender a esse orçamento","Suas categorias de atendimento não permitem atender a esse tipo de orçamento. Para alterar as suas categorias de atendimento, envie um e-mail para <b>suporte@servidorseguro.cloud</b>");  
-
-    }
+        /*
+        if(categoria1==categoria  || categoria2==categoria){
+        }else{
+            aviso("Oops! Você não pode atender a esse orçamento","Suas categorias de atendimento não permitem atender a esse tipo de orçamento. Para alterar as suas categorias de atendimento, envie um e-mail para <b>suporte@servidorseguro.cloud</b>");  
+        }
+        */
         
 
     }

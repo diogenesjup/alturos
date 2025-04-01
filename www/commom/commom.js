@@ -1,3 +1,146 @@
+function abrirModalDetalhes(id, caso, valorChaves, grupo) {
+
+  document.getElementById('modalTitulo').textContent = 'Caso ' + caso;
+  
+  document.getElementById('modalValorChaves').textContent = valorChaves;
+
+  const btnLeiaMais = document.querySelector(`#anuncio${id} .btn-leia-mais`);
+  const textoCompleto = btnLeiaMais.querySelector('.texto-completo').innerHTML;
+
+  document.getElementById('modalTextoCompleto').textContent = textoCompleto;
+  
+  // Configurar o botão "COMPRAR" no modal
+  document.getElementById('modalBtnComprar').onclick = function() {
+    app.desbloqAnuncio(id, valorChaves, grupo);
+    document.getElementById('modalDetalhesAnuncio').style.display = 'none';
+  };
+  
+  // Exibir o modal
+  document.getElementById('modalDetalhesAnuncio').style.display = 'block';
+  
+  // Fechar o modal ao clicar fora dele
+  window.onclick = function(event) {
+    const modal = document.getElementById('modalDetalhesAnuncio');
+    if (event.target == modal) {
+      modal.style.display = 'none';
+    }
+  }
+}
+
+
+function copiarDetalheCaso() {
+  // Obtém o elemento
+  const divDetalhes = document.getElementById('detalhe_caso');
+  
+  // Cria um elemento temporário para obter o texto sem formatação HTML
+  const temp = document.createElement('div');
+  temp.innerHTML = divDetalhes.innerHTML;
+  
+  // Extrai apenas o texto, removendo as tags HTML
+  const textoParaCopiar = temp.innerText || temp.textContent;
+  
+  // Método 1: usando document.execCommand (compatibilidade maior)
+  try {
+    // Cria um elemento input temporário
+    const tempInput = document.createElement('textarea');
+    tempInput.value = textoParaCopiar;
+    
+    // Adiciona o elemento ao corpo do documento
+    document.body.appendChild(tempInput);
+    
+    // Seleciona o texto
+    tempInput.select();
+    tempInput.setSelectionRange(0, 99999); // Para dispositivos móveis
+    
+    // Executa o comando de cópia
+    document.execCommand('copy');
+    
+    // Remove o elemento temporário
+    document.body.removeChild(tempInput);
+    
+    // Feedback opcional (pode ser removido se quiser uma função 100% silenciosa)
+    alert('Conteúdo copiado para a área de transferência!');
+    
+    return true;
+  } 
+  catch (err) {
+    // Método 2: usando a API Clipboard (navegadores modernos)
+    try {
+      navigator.clipboard.writeText(textoParaCopiar).then(() => {
+        // Feedback opcional
+        alert('Conteúdo copiado para a área de transferência!');
+      });
+      return true;
+    } 
+    catch (err2) {
+      console.error('Não foi possível copiar o texto: ', err2);
+      return false;
+    }
+  }
+}
+
+
+
+function filtroCasos() {
+  // Obter o valor digitado na caixa de busca e converter para maiúsculas
+  var input = document.getElementById("filtroTabela");
+  var filtro = input.value.toUpperCase();
+  
+  // Obter o container de orçamentos
+  var container = document.getElementById("listaDeOrcamentos");
+  
+  // Obter todas as divs de orçamentos (caixas de serviço)
+  var divsCasos = container.getElementsByClassName("caixa-destaque-servicos");
+  
+  // Contador para verificar se algum resultado foi encontrado
+  var resultadosEncontrados = 0;
+  
+  // Loop por todas as divs de casos
+  for (var i = 0; i < divsCasos.length; i++) {
+      // Obter o valor do atributo data-meu-caso
+      var numeroCaso = divsCasos[i].getAttribute("data-meu-caso");
+      
+      // Se o número do caso contém o texto filtrado, mostrar o elemento, caso contrário, ocultar
+      if (numeroCaso && numeroCaso.toUpperCase().indexOf(filtro) > -1) {
+          divsCasos[i].style.display = "";
+          resultadosEncontrados++;
+      } else {
+          divsCasos[i].style.display = "none";
+      }
+  }
+  
+  // Verificar se não foram encontrados resultados
+  if (resultadosEncontrados === 0 && filtro !== "") {
+      // Se não existir a mensagem de "Nenhum resultado encontrado", criar uma
+      var msgNenhumResultado = document.getElementById("msgNenhumResultado");
+      
+      if (!msgNenhumResultado) {
+          msgNenhumResultado = document.createElement("div");
+          msgNenhumResultado.id = "msgNenhumResultado";
+          msgNenhumResultado.className = "nenhum-resultado";
+          msgNenhumResultado.innerHTML = `
+              <p style="text-align:center; margin-top: 20px;">
+                  <i class="fa fa-search" style="font-size: 30px; color: #ccc;"></i>
+              </p>
+              <p style="text-align:center; color:#747474; font-size:14px;">
+                  Nenhum caso encontrado com este número.
+              </p>
+          `;
+          container.appendChild(msgNenhumResultado);
+      } else {
+          msgNenhumResultado.style.display = "block";
+      }
+  } else {
+      // Se existirem resultados, ocultar a mensagem de "Nenhum resultado encontrado"
+      var msgNenhumResultado = document.getElementById("msgNenhumResultado");
+      if (msgNenhumResultado) {
+          msgNenhumResultado.style.display = "none";
+      }
+  }
+}
+
+
+
 
 
 // Função para filtrar as categorias
