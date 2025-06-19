@@ -185,7 +185,7 @@ header .saldo-atual img{
 footer{
   position: fixed;
   display:none;
-  background: #fff;
+  background: #172d48;
   z-index:9999;
   left:0;
   bottom:0;
@@ -195,14 +195,14 @@ footer{
   padding-top: 12px;
   padding-left: 20px;
   padding-right: 20px;
-  border: 1px solid #f2f2f2;
+  border: 0px solid #172d48;
   filter: drop-shadow(0px 3px 6px rgba(0, 0, 0, 0.16));
 
 }
 
 footer a,
 footer a:hover{
-  color: #000 !important;
+  color: #f2f2f2 !important;
   text-decoration: none !important;
   font-size: 12.5px;
   font-family: 'Barlow', sans-serif;
@@ -259,6 +259,7 @@ footer .menu-3 img{
     height: auto;
     display: block;
     margin-left: auto;
+    filter: invert(1);
     margin-right: auto;
 }
 
@@ -681,8 +682,10 @@ section#content .view-3{
 }
 
 .modal-body-alturos p{
-  font-size: 14px;
-  text-align: justify;
+  font-size: 13px;
+  text-align: left;
+  background: #f2f2f2;
+  padding: 14px;
 }
 
 .modal-footer-alturos {
@@ -724,12 +727,14 @@ section#content .view-3{
     border-radius: 5px;
     padding: 20px;
     margin-bottom: 28px;
+    border: 1px solid #172d48;
 }
 
 .loop-novos-servicos .caixa-destaque-servicos h3{
     font-family: 'Barlow', sans-serif;
-    font-weight: normal;
+    font-weight: bold;
     font-size: 16px;
+    text-transform: uppercase;
 }
 
 .loop-novos-servicos .caixa-destaque-servicos h3 img{
@@ -746,6 +751,7 @@ section#content .view-3{
 .loop-novos-servicos .caixa-destaque-servicos h3 small{
   display: block;
   padding-top: 4px;
+  text-transform: none;
 }
 
 .loop-novos-servicos .caixa-destaque-servicos h3 small p{
@@ -782,7 +788,7 @@ section#content .view-3{
 .loop-novos-servicos .caixa-destaque-servicos .footer-autor a.btn-primary,
 .loop-novos-servicos .caixa-destaque-servicos .footer-autor a.btn-primary:hover{
   text-align: left;
-  padding-top: 8px;
+  padding-top: 11px;
   border-radius: 7px;
 }
 

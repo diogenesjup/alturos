@@ -582,8 +582,8 @@ class Views{
                      </h2>
                      
                      <p style="font-size: 13px;width:80%;margin-bottom:30px;">
-                       O saldo <b>MOEDAS</b> é o que você utiliza para desbloquear os orçamento dentro da plataforma. 
-                       Você pode comprar novos pacotes de MOEDAS sempre que quiser:
+                       O saldo <b>Alturos Coins</b> é o que você utiliza para desbloquear os orçamento dentro da plataforma. 
+                       Você pode comprar novos pacotes de Alturos Coins sempre que quiser:
                      </p>
 
                      <p style="font-size: 13px;width:80%;margin-bottom:30px;">
@@ -591,8 +591,8 @@ class Views{
                      </p>
 
                      <p>
-                        <a href="javascript:void(0)" onclick="app.comprarChaves();" style="padding-top:6px;" class="btn btn-primary" title="Comprar MOEDAS">
-                          COMPRAR MOEDAS
+                        <a href="javascript:void(0)" onclick="app.comprarChaves();" style="padding-top:10px;" class="btn btn-primary" title="Comprar Alturos Coins">
+                          COMPRAR ALTUROS COINS
                         </a>
                      </p>
 
@@ -771,9 +771,9 @@ class Views{
                       <a href="javascript:void(0)" title="Voltar" onclick="app.viewPrincipalProfissional();">
                          <img src="assets/images/voltar-views.svg" alt="Voltar" />
                       </a> 
-                      Comprar MOEDAS</h2>
+                      Comprar Alturos Coins</h2>
                      <p>
-                        Escolha um pacote de moedas para você desbloquear e visualizar os serviços. Clique no botão abaixo dos pacotes, para comprar.
+                        Escolha um pacote de Alturos Coins para você desbloquear e visualizar os serviços. Clique no botão abaixo dos pacotes, para comprar.
                      </p>
 
                      
@@ -829,14 +829,14 @@ class Views{
                       <a href="javascript:void(0)" title="Voltar" onclick="app.comprarChaves();">
                          <img src="assets/images/voltar-views.svg" alt="Voltar" />
                       </a> 
-                      Comprar MOEDAS</h2>
-                      <p>Você está comprando um pacote de moedas</p>
+                      Comprar ALTUROS COINS</h2>
+                      <p>Você está comprando um pacote de Alturos Coins</p>
 
                            <div id="pacoteEscolhido"></div>
 
                            <h3 style="font-size:20px;">Como deseja realizar o pagamento?</h3>
                            <p>
-                              Você pode realizar o pagamento de duas formas: <strong>Pix - Mais Rápido - Moedas caem em minutos.</strong> Cartão de Crédito - Moedas caem em até 30 min.
+                              Você pode realizar o pagamento de duas formas: <strong>Pix - Mais Rápido - Alturos Coins caem em minutos.</strong> Cartão de Crédito - Alturos Coins caem em até 30 min.
                            </p>
 
                                  <!-- FORMAS DE PAGAMENTO -->
@@ -1060,7 +1060,7 @@ class Views{
                                  </h3>
                                  -->
 
-                                   <p style="text-align:center">Suas moedas serão liberadas meditante confirmação do pagamento do PIX.</p>
+                                   <p style="text-align:center">Suas Alturos Coins serão liberadas meditante confirmação do pagamento do PIX.</p>
 
                                    <p>
                                     <img src="https://api.qrserver.com/v1/create-qr-code/?size=350x350&data=${encodedPayload}" style="width: 80%;height: auto;margin: 20px;border-radius: 8px;" /> 
@@ -1852,10 +1852,10 @@ class Views{
 
                                   <p>
                                     Compartilhe o aplicativo <b>${app.appName}</b> com seus amigos e contatos 
-                                    e ganhe MOEDAS para desbloquear orçamentos!
+                                    e ganhe Alturos Coins para desbloquear orçamentos!
                                   </p>
                                   <p>
-                                    Se as pessoas que você indicou, se cadastrarem, você ganha na hora até 100 MOEDAS!!
+                                    Se as pessoas que você indicou, se cadastrarem, você ganha na hora até 100 Alturos Coins!!
                                   </p>
 
                                   <div class="social">
@@ -2328,6 +2328,43 @@ class Views{
             app.helpers.carregarMascaras();
     }
     
+
+    viewBiometricAuth(){
+
+            this._content.html(`
+            
+               <div class="row view-login" view-name="view-biometric">
+                  <div class="col-12 wow fadeInRight text-center" data-wow-delay="0.0s" data-wow-duration="0.3s">
+                     
+                     <div style="padding: 60px 20px;">
+                        <h2>Autenticação Biométrica</h2>
+                        <p>Use sua impressão digital ou reconhecimento facial para acessar o aplicativo</p>
+                        
+                        <div style="margin: 40px 0;">
+                            <i class="fa fa-fingerprint" style="font-size: 80px; color: #007bff; margin-bottom: 20px;"></i>
+                            <p style="color: #666;">Toque no sensor ou olhe para a câmera</p>
+                        </div>
+                        
+                        <div class="form-group">
+                           <button class="btn btn-secondary" onclick="app.sessao.cancelarBiometria()">
+                              Usar senha simples
+                           </button>
+                        </div>
+                     </div>
+
+                  </div>
+               </div>
+            
+            `);
+
+            $("footer").hide();
+            $("header .menu-bar-toggle").hide();
+
+            this.animarTransicao();
+        
+    }
+
+
     viewEsqueciMinhaSenha(){
 
           this._content.html(`

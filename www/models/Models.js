@@ -719,7 +719,7 @@ orcamentosDisponiveis(){
 
               if(dados.saldo_usuario==""||dados.saldo_usuario==0||dados.saldo_usuario<0){
 
-                  confirmacao("Você está sem MOEDAS","Para desbloquear e visualizar os orçamentos, você precisa ter comprado algum pacote de moedas. Deseja fazer isso agora?","app.comprarChaves()","Comprar agora");
+                  confirmacao("Você está sem Alturos Coins","Para desbloquear e visualizar os orçamentos, você precisa ter comprado algum pacote de Alturos Coins. Deseja fazer isso agora?","app.comprarChaves()","Comprar agora");
 
               }
 
@@ -737,7 +737,19 @@ orcamentosDisponiveis(){
                             }
                             //n.resumoAnotacoes.replace('"','');
 
+                            var htmlTipoGrupo     = "";
+                            var htmlNomeTipoGrupo = "";
+
                             if(n.disponivel!=2 && n.disponivel!="2" && n.desblock!="sim"){
+
+                                      if(n.grupo=="exclusivo"){
+                                          htmlNomeTipoGrupo = 'Lead Garantido';
+                                          htmlTipoGrupo     = 'esse lead será disponibilizado exclusivamente para somente um comprador.';
+                                      }
+                                      if(n.grupo=="compartilhado"){
+                                          htmlNomeTipoGrupo = 'Lead Oportunidade';
+                                          htmlTipoGrupo     = 'ess lead será disponibilizado para até mais 3 clientes.';
+                                      }
 
                                       return `
                                           
@@ -750,7 +762,7 @@ orcamentosDisponiveis(){
                                                     <img src="${n.imagem_perfil}" style="opacity:1;border-radius: 100%;" alt="Foto Perfil" />
                                                     Caso ${n.Caso}
                                                     <small>
-                                                      Grupo: ${n.grupo}
+                                                      <!--Grupo: --><strong>${htmlNomeTipoGrupo}</strong> (${htmlTipoGrupo})
                                                     </small>
                                                 </h3>
 
@@ -837,6 +849,9 @@ orcamentosDisponiveisDesbloqueados(){
 
               console.log("COMECANDO A IMPRIMIR OS ORCAMENTOS NA TELA:");
 
+              var htmlTipoGrupo     = "";
+              var htmlNomeTipoGrupo = "";
+
               $("#listaDeOrcamentos").html(`
 
                   ${dados.orcamentos.map((n) => {
@@ -848,10 +863,19 @@ orcamentosDisponiveisDesbloqueados(){
                               n.Cliente = "Nome não informado";
                             }
 
+                            if(n.grupo=="exclusivo"){
+                                          htmlNomeTipoGrupo = 'Lead Garantido';
+                                          htmlTipoGrupo     = 'esse lead será disponibilizado exclusivamente para somente um comprador.';
+                                      }
+                                      if(n.grupo=="compartilhado"){
+                                          htmlNomeTipoGrupo = 'Lead Oportunidade';
+                                          htmlTipoGrupo     = 'ess lead será disponibilizado para até mais 3 clientes.';
+                                      }
+
                               return `
                                   
                                  <!-- CAIXA DESTAQUE SERVIÇOS -->
-                                 <div id="anuncio${n.id}" class="caixa-destaque-servicos" data-meu-caso="${n.Caso}">
+                                 <div id="anuncio${n.id}" class="caixa-destaque-servicos" data-meu-caso="${n.Caso} ${n.Whatsapp_Cliente} ${n.Cliente}">
                                    
                                      <div class="header-autor">
 
@@ -859,7 +883,7 @@ orcamentosDisponiveisDesbloqueados(){
                                                     <img src="${n.imagem_perfil}" style="opacity:1;border-radius: 100%;" alt="Foto Perfil" />
                                                     Caso ${n.Caso}
                                                     <small>
-                                                      Grupo: ${n.grupo}
+                                                      <!--Grupo:--> <strong>${htmlNomeTipoGrupo}</strong> (${htmlTipoGrupo})
                                                     </small>
                                                 </h3>
 
@@ -1143,7 +1167,7 @@ pacoteChaves(){
                                     <input class="form-check-input" type="radio" name="pacote" id="pacote${temp}" value="${n.qtd_chaves}" ${checked}>
                                     <label class="form-check-label" for="pacote${temp}">
                                       <img src="assets/images/simbolo.svg" alt="Comprar ${n.qtd_chaves} Chaves" />  
-                                      ${n.qtd_chaves} Moedas 
+                                      ${n.qtd_chaves} Alturos Coins 
                                       <small>À vista por R$ ${n.valor_blr.replace(".",",")}<br>Validade de ${n.validade_dias} dias</small>
                                       <span>
                                         <d>ou em até 4X de</d>
@@ -1230,8 +1254,8 @@ selecaoPacoteDeChaves(pacoteEscolhido){
                                  <div class="form-check" style="margin-top: 23px;margin-bottom: 56px;">
                                     <input class="form-check-input" type="radio" name="pacote" id="pacote1" value="${pacoteEscolhido}" checked>
                                     <label class="form-check-label" for="pacote1">
-                                      <img src="assets/images/simbolo.svg" alt="Comprar ${pacoteEscolhido} Moedas" />  
-                                      ${pacoteEscolhido} MOEDAS 
+                                      <img src="assets/images/simbolo.svg" alt="Comprar ${pacoteEscolhido} Alturos Coins" />  
+                                      ${pacoteEscolhido} Alturos Coins 
                                       <small>À vista por R$ ${dados.pacotes[i].valor_blr.replace(".",",")}</small>
                                       <span>
                                         <d>ou em até 4X de</d>

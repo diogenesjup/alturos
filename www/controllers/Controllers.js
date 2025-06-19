@@ -7,10 +7,11 @@ class App {
         this.appVersion = appVersion;        
         this.appOs      = appOs;
 
-        this.views   = new Views();
-        this.sessao  = new Sessao();
-        this.models  = new Models();
-        this.helpers = new Helpers();
+        this.views      = new Views();
+        this.sessao     = new Sessao();
+        this.models     = new Models();
+        this.helpers    = new Helpers();
+        this.biometric  = new BiometricAuth(); // Adicionar biometria
         
         if(ambiente=="HOMOLOGACAO"){
              
@@ -435,11 +436,11 @@ filtrotabela(){
 
         if(saldoUsuario<valorAnuncio){
         
-            confirmacao("Oops! Você não tem MOEDAS suficiêntes","Quer enviar um orçamento para esse cliente? Compre agora um pacote de MOEDAS para desbloquear essa e muitos outros anúncios!","app.comprarChaves()","Comprar");
+            confirmacao("Oops! Você não tem Alturos Coins suficiêntes","Quer enviar um orçamento para esse cliente? Compre agora um pacote de Alturos Coins para desbloquear essa e muitos outros anúncios!","app.comprarChaves()","Comprar");
         
         }else{
 
-            confirmacao("Tem certeza que deseja comprar esse caso?",`Será debitado um valor de ${valorAnuncio} MOEDAS do seu saldo <b>${app.appName}</b>`,`app.views.viewDetalheAnuncio(${anuncio},5)`,"Comprar");
+            confirmacao("Tem certeza que deseja comprar esse caso?",`Será debitado um valor de ${valorAnuncio} Alturos Coins do seu saldo <b>${app.appName}</b>`,`app.views.viewDetalheAnuncio(${anuncio},5)`,"Comprar");
 
         }
 
@@ -744,6 +745,9 @@ class Sessao{
     	this.dadosUsuario = dadosUsuario;
     	localStorage.setItem("bdLogado","logado");
         localStorage.setItem("idUsuario",this.idUsuario);
+
+        // Perguntar ao usuário se quer habilitar biometria (apenas na primeira vez)
+        this.verificarConfiguracaoBiometria();
         
         // DIRECIONAR O USUÁRIO PARA O INÍCIO
     	app.inicio();
@@ -764,4 +768,217 @@ class Sessao{
     	localStorage.clear();
     }
 
+    // Adicione estes novos métodos na classe Sessao:
+    async verificarConfiguracaoBiometria() {
+        // Só perguntar se a biometria ainda não foi configurada
+        const biometricConfigured = localStorage.getItem('biometricConfigured');
+        
+        if (!biometricConfigured && app.biometric.isCordovaApp()) {
+            const available = await app.biometric.checkBiometricAvailability();
+            
+            if (available) {
+                setTimeout(() => {
+                    confirmacao(
+                        "Habilitar Biometria?", 
+                        "Deseja usar sua impressão digital ou reconhecimento facial para acessar o app mais rapidamente?",
+                        "app.sessao.habilitarBiometria()",
+                        "Sim, habilitar"
+                    );
+                }, 1000);
+            }
+            
+            // Marcar como configurado (mesmo que tenha recusado)
+            localStorage.setItem('biometricConfigured', 'true');
+        }
+    }
+
+        habilitarBiometria() {
+            app.biometric.enableBiometricForApp();
+            aviso("Biometria Habilitada!", "Agora você pode usar sua biometria para acessar o app rapidamente.");
+        }
+
+        async verificarLogadoComBiometria() {
+            // Se não estiver logado, ir para tela de login
+            if (this.bdLogado !== "logado") {
+                app.viewLogin();
+                return;
+            }
+            
+            // Se estiver logado, verificar se deve usar biometria
+            const shouldUseBiometric = await app.biometric.shouldUseBiometric();
+            
+            if (shouldUseBiometric) {
+                this.solicitarAutenticacaoBiometrica();
+            } else {
+                // Se não usar biometria, ir direto para o app
+                app.inicio();
+            }
+        }
+
+        async solicitarAutenticacaoBiometrica() {
+            try {
+                // Mostrar tela de loading/biometria
+                this.views.viewBiometricAuth();
+                
+                const authenticated = await app.biometric.authenticate();
+                
+                if (authenticated) {
+                    // Biometria bem-sucedida, ir para o app
+                    app.inicio();
+                } else {
+                    // Biometria cancelada/falhou, deslogar usuário
+                    this.deslogarUusario();
+                    app.viewLogin();
+                    aviso("Acesso Negado", "É necessário autenticar-se para acessar o aplicativo.");
+                }
+            } catch (error) {
+                console.log('Erro na autenticação biométrica:', error);
+                // Em caso de erro, permitir acesso
+                app.inicio();
+            }
+        }
+
+        cancelarBiometria() {
+            // Deslogar usuário e ir para tela de login
+            this.deslogarUusario();
+            app.viewLogin();
+        }
+
+}
+
+
+class BiometricAuth {
+    
+    constructor() {
+        this.isDeviceReady = false;
+        this.biometricAvailable = false;
+        
+        // Aguardar o deviceready apenas se estivermos em um dispositivo
+        if (this.isCordovaApp()) {
+            document.addEventListener('deviceready', () => {
+                this.isDeviceReady = true;
+                this.checkBiometricAvailability();
+            }, false);
+        }
+    }
+    
+    // Verificar se estamos em um app Cordova ou no navegador
+    isCordovaApp() {
+        return typeof cordova !== 'undefined' && typeof FingerprintAuth !== 'undefined';
+    }
+    
+    // Verificar se a biometria está disponível no dispositivo
+    async checkBiometricAvailability() {
+        if (!this.isCordovaApp() || !this.isDeviceReady) {
+            console.log('Biometria não disponível - rodando no navegador ou device não ready');
+            return false;
+        }
+        
+        return new Promise((resolve) => {
+            try {
+                FingerprintAuth.isAvailable((result) => {
+                    this.biometricAvailable = result.isAvailable;
+                    console.log('Biometria disponível:', result);
+                    resolve(result.isAvailable);
+                }, (error) => {
+                    console.log('Erro ao verificar biometria:', error);
+                    this.biometricAvailable = false;
+                    resolve(false);
+                });
+            } catch (error) {
+                console.log('Erro na verificação de biometria:', error);
+                this.biometricAvailable = false;
+                resolve(false);
+            }
+        });
+    }
+    
+    // Autenticar com biometria
+    async authenticate() {
+        if (!this.isCordovaApp()) {
+            console.log('Pulando biometria - rodando no navegador');
+            return true; // No navegador, pular a biometria
+        }
+        
+        if (!this.isDeviceReady) {
+            console.log('Device não está ready para biometria');
+            return false;
+        }
+        
+        if (!this.biometricAvailable) {
+            await this.checkBiometricAvailability();
+            if (!this.biometricAvailable) {
+                console.log('Biometria não disponível no dispositivo');
+                return true; // Se não há biometria, permitir acesso
+            }
+        }
+        
+        return new Promise((resolve) => {
+            try {
+                const config = {
+                    title: app.appName || 'Autenticação',
+                    subtitle: 'Use sua biometria para acessar o app',
+                    description: 'Coloque seu dedo no sensor ou use o reconhecimento facial',
+                    fallbackButtonTitle: 'Usar senha do dispositivo',
+                    disableBackup: false
+                };
+                
+                FingerprintAuth.show(config, (result) => {
+                    console.log('Autenticação biométrica bem-sucedida:', result);
+                    resolve(true);
+                }, (error) => {
+                    console.log('Erro na autenticação biométrica:', error);
+                    
+                    // Se o usuário cancelou, retornar false
+                    if (error.code === -128 || error.code === -2) {
+                        resolve(false);
+                    } else {
+                        // Para outros erros, permitir acesso (fallback)
+                        resolve(true);
+                    }
+                });
+            } catch (error) {
+                console.log('Erro ao iniciar autenticação biométrica:', error);
+                resolve(true); // Em caso de erro, permitir acesso
+            }
+        });
+    }
+    
+    // Verificar se o usuário já configurou biometria para o app
+    isBiometricEnabledForApp() {
+        return localStorage.getItem('biometricEnabled') === 'true';
+    }
+    
+    // Habilitar biometria para o app
+    enableBiometricForApp() {
+        localStorage.setItem('biometricEnabled', 'true');
+    }
+    
+    // Desabilitar biometria para o app
+    disableBiometricForApp() {
+        localStorage.setItem('biometricEnabled', 'false');
+    }
+    
+    // Verificar se deve solicitar biometria no login
+    async shouldUseBiometric() {
+        // Só usar biometria se:
+        // 1. Estiver em um app Cordova
+        // 2. Usuário já estiver logado
+        // 3. Biometria estiver habilitada para o app
+        // 4. Biometria estiver disponível no dispositivo
+        
+        const isLoggedIn = localStorage.getItem('bdLogado') === 'logado';
+        const biometricEnabled = this.isBiometricEnabledForApp();
+        
+        if (!isLoggedIn || !biometricEnabled) {
+            return false;
+        }
+        
+        if (!this.isCordovaApp()) {
+            return false; // No navegador, não usar biometria
+        }
+        
+        const available = await this.checkBiometricAvailability();
+        return available;
+    }
 }
