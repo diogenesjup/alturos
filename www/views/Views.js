@@ -25,7 +25,7 @@ class Views{
                <div class="row view-inicial inicial" view-name="view-dashboard">
                   <div class="col-12 wow fadeInUp nova-recepcao" data-wow-delay="0.0s" data-wow-duration="0.3s">
                      
-                     <h3 class="saudacao">Seja bem vindo, qual tipo de perfil você deseja acessar?</h3> 
+                     <h3 class="saudacao">Olá! Seja bem vindo:</h3> 
                      
                      <form method="post" action="javascript:void(0)" onsubmit="app.selecaoPerfil(event)">
 
@@ -45,19 +45,19 @@ class Views{
                               <label class="form-check-label" for="tipoServicoPro">
                                 <span style="position: absolute;display: none;float: none;width: 42px;height: 42px;border-radius: 100%;margin-right: 10px;margin-top: 1px;text-align: center;left:10px;">
                                  <img src="assets/images/cad59703-0e4d-486b-b442-07f50c45fc9f.png" alt="Sou PROFISSIONAL" style="position: absolute;display: block;left: 0px;top: 0px;width: 96%;" />
-                                 </span>  Sou <strong>PROFISSIONAL,</strong><br> quero cadastrar meus serviços.
+                                 </span>  Sou <strong>ADVOGADO,</strong><br> quero visualizar e comprar casos:
                               </label>
                            </div>
 
                            <!--
-                           <div class="form-check">
-                              <input class="form-check-input" type="radio" name="tipoPerfil" id="tipoServicoClienteEmpresa" value="cliente">
-                              <label class="form-check-label" for="tipoServicoClienteEmpresa">
-                                <span style="position: absolute;display: block;float: none;width: 42px;height: 42px;border-radius: 100%;margin-right: 10px;margin-top: 1px;text-align: center;left:10px;">
-                                    <img src="assets/images/empresa2.png" style="position: absolute;display: block;left: 0px;top: 1px;width: 96%;" alt="Sou CLIENTE" />
-                                </span> Como <strong>EMPRESA,</strong><br> preciso de um profissional
-                              </label>
-                           </div>
+                              <div class="form-check">
+                                 <input class="form-check-input" type="radio" name="tipoPerfil" id="tipoServicoClienteEmpresa" value="cliente">
+                                 <label class="form-check-label" for="tipoServicoClienteEmpresa">
+                                 <span style="position: absolute;display: block;float: none;width: 42px;height: 42px;border-radius: 100%;margin-right: 10px;margin-top: 1px;text-align: center;left:10px;">
+                                       <img src="assets/images/empresa2.png" style="position: absolute;display: block;left: 0px;top: 1px;width: 96%;" alt="Sou CLIENTE" />
+                                 </span> Como <strong>EMPRESA,</strong><br> preciso de um profissional
+                                 </label>
+                              </div>
                            -->
                            
                            <div class="form-group">
