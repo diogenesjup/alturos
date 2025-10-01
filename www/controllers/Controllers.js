@@ -15,9 +15,9 @@ class App {
         
         if(ambiente=="HOMOLOGACAO"){
              
-            this.urlDom = "https://alturos.servidorseguro.cloud/app/www/";
-            this.urlApi = "https://alturos.servidorseguro.cloud/apiservicekeys/";
-            this.urlCdn = "https://alturos.servidorseguro.cloud/cdn/";
+            this.urlDom = "https://alturos.com.br/app/www/";
+            this.urlApi = "https://alturos.com.br/apiservicekeys/";
+            this.urlCdn = "https://alturos.com.br/cdn/";
             this.urlApiAlturos = "https://www.cranchi.com.br/appCasosJuridicos/";
             this.AlturosToken = "76cafc6b8cb33b129591d60abbfba49234f1415c6436712ed063277a47adf61e";
 
@@ -32,7 +32,7 @@ class App {
 
         }
 
-        this.urlApiPagto = "https://alturos.servidorseguro.cloud";
+        this.urlApiPagto = "https://alturos.com.br";
 
         this.token = token;
         this.tokenSms = tokenSms;
